@@ -1,0 +1,2 @@
+actorMode: worker
+taskId: TASK-EXAMPLE-001

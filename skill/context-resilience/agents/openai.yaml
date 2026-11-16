@@ -1,0 +1,4 @@
+interface:
+  display_name: "Context Resilience"
+  short_description: "Protect repository context from compression loss and drift"
+  default_prompt: "Use $context-resilience to initialize, audit, or recover a repository context system."

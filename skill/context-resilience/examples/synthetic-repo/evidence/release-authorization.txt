@@ -1,0 +1,1 @@
+Synthetic release authorization evidence for tests only.

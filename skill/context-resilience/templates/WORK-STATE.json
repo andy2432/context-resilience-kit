@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-01-01T00:00:00Z",
+  "tasks": [
+    {
+      "id": "TASK-20260101-001",
+      "title": "Replace the synthetic handoff task",
+      "status": "blocked",
+      "owner": "example-owner",
+      "threadId": "example-thread",
+      "branch": "main",
+      "baseSha": "HEAD",
+      "scope": ["context/"],
+      "forbidden": ["deployment", "production-data"],
+      "acceptance": ["Replace this sample with the active task or an empty list."],
+      "nextAction": "Replace the sample task.",
+      "blockers": [
+        {
+          "reason": "The sample still needs project-specific scope.",
+          "owner": "repo-owner",
+          "nextCheck": "Before first work item"
+        }
+      ],
+      "evidence": ["context/PROJECT-CONTEXT.md"],
+      "updatedAt": "2026-01-01T00:00:00Z"
+    }
+  ]
+}

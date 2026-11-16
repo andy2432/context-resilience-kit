@@ -1,0 +1,27 @@
+{
+  "name": "context-resilience-kit",
+  "version": "1.1.0",
+  "description": "Repository context recovery and actor-role drift prevention",
+  "license": "MIT",
+  "type": "commonjs",
+  "bin": {
+    "context-resilience": "skill/context-resilience/scripts/context-resilience.js"
+  },
+  "scripts": {
+    "test": "node skill/context-resilience/tests/run-tests.js && node skill/context-resilience/tests/role-tests.js && node skill/context-resilience/tests/boundary-tests.js",
+    "test:saturation": "node skill/context-resilience/tests/run-tests.js",
+    "test:role": "node skill/context-resilience/tests/role-tests.js",
+    "test:boundary": "node skill/context-resilience/tests/boundary-tests.js"
+  },
+  "engines": {
+    "node": ">=18.17"
+  },
+  "files": [
+    "skill/context-resilience",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md"
+  ]
+}

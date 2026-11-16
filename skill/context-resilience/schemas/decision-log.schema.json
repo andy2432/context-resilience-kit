@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/context-resilience/decision-log.schema.json",
+  "title": "Decision Log Entry",
+  "type": "object",
+  "required": [
+    "id",
+    "key",
+    "date",
+    "status",
+    "sourceType",
+    "owner",
+    "decision",
+    "outcome",
+    "reason",
+    "evidence",
+    "supersedes",
+    "supersededBy"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^DEC-[A-Z0-9-]+$"
+    },
+    "key": {
+      "type": "string",
+      "minLength": 1
+    },
+    "date": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "status": {
+      "enum": [
+        "proposed",
+        "accepted",
+        "active",
+        "revoked",
+        "superseded",
+        "historical",
+        "unverified"
+      ]
+    },
+    "sourceType": {
+      "enum": [
+        "user",
+        "director",
+        "agent",
+        "external",
+        "technical-constraint"
+      ]
+    },
+    "owner": {
+      "type": "string",
+      "minLength": 1
+    },
+    "decision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "outcome": {
+      "type": "string",
+      "minLength": 1
+    },
+    "reason": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "oneOf": [
+          {
+            "type": "string",
+            "minLength": 1
+          },
+          {
+            "type": "object",
+            "required": ["type", "ref"],
+            "properties": {
+              "type": {
+                "type": "string"
+              },
+              "ref": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
+          }
+        ]
+      }
+    },
+    "supersedes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^DEC-[A-Z0-9-]+$"
+      }
+    },
+    "supersededBy": {
+      "type": ["string", "null"]
+    },
+    "reviewAt": {
+      "type": ["string", "null"],
+      "format": "date-time"
+    },
+    "reviewWhen": {
+      "type": ["string", "null"]
+    }
+  },
+  "additionalProperties": true
+}

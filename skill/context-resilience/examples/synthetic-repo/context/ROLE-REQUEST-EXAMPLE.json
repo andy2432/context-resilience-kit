@@ -1,0 +1,35 @@
+{
+  "threadId": "synthetic-director-thread-0001",
+  "actorMode": "director",
+  "intent": "verify",
+  "dispatchSatisfied": true,
+  "dispatchedTaskIds": [
+    "TASK-EXAMPLE-001"
+  ],
+  "dispatchEvidence": [
+    "evidence/dispatch.txt"
+  ],
+  "workerDeliveryId": "DELIVERY-EXAMPLE-001",
+  "evidencePointers": [
+    {
+      "id": "EV-001",
+      "type": "commit",
+      "value": "abcdef0",
+      "allowedCheck": "git show --stat abcdef0"
+    }
+  ],
+  "verificationBudgetUsed": {
+    "readOperations": 0,
+    "namedFiles": 0,
+    "namedCommands": 0,
+    "preciseThreadReads": 0
+  },
+  "plannedActions": [
+    {
+      "actionType": "verify_command",
+      "command": "git show --stat abcdef0",
+      "evidencePointerId": "EV-001",
+      "runCount": 1
+    }
+  ]
+}

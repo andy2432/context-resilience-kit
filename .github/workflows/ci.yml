@@ -1,0 +1,39 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - windows-latest
+        node:
+          - 18.17.0
+          - 20
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Verify syntax
+        run: |
+          node --check skill/context-resilience/scripts/context-resilience.js
+          node --check skill/context-resilience/tests/run-tests.js
+          node --check skill/context-resilience/tests/role-tests.js
+          node --check skill/context-resilience/tests/boundary-tests.js
+      - name: Run saturation and boundary suites
+        run: npm test
+      - name: Verify example
+        run: |
+          node skill/context-resilience/scripts/context-resilience.js --root skill/context-resilience/examples/synthetic-repo --write
+          node skill/context-resilience/scripts/context-resilience.js --root skill/context-resilience/examples/synthetic-repo --fast
+          node skill/context-resilience/scripts/context-resilience.js --root skill/context-resilience/examples/synthetic-repo --role

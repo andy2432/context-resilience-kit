@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "revision": 1,
+  "updatedAt": "2026-01-01T00:00:00Z",
+  "authorization": {
+    "sourceType": "user",
+    "reference": "context/DECISION-LOG.jsonl#DEC-20260101-003",
+    "decisionId": "DEC-20260101-003",
+    "outcome": "director is a context firewall"
+  },
+  "profiles": {
+    "director": {
+      "purpose": "context_firewall",
+      "handoffRequired": true,
+      "allowedActions": [
+        "plan",
+        "dispatch",
+        "monitor",
+        "read_worker_summary",
+        "verify_read",
+        "verify_command",
+        "precise_thread_read",
+        "record",
+        "orchestrate_release"
+      ],
+      "forbiddenActions": [
+        "broad_thread_search",
+        "raw_rollout_scan",
+        "history_reconstruction",
+        "open_ended_code_exploration",
+        "debug_implementation",
+        "edit_business_code",
+        "long_log_analysis",
+        "repeat_full_worker_investigation",
+        "self_assign_unscoped_audit"
+      ],
+      "verificationBudget": {
+        "maxReadOperationsPerDelivery": 1,
+        "maxNamedFiles": 1,
+        "maxNamedCommands": 1,
+        "maxPreciseThreadReads": 1,
+        "allowWildcardSearch": false,
+        "allowFollowOnInvestigation": false
+      },
+      "dispatchPriority": [
+        "create_task",
+        "send_task",
+        "wait_task"
+      ],
+      "minimumMemory": [
+        {
+          "key": "role",
+          "description": "actorMode, exact binding, and role contract revision"
+        },
+        {
+          "key": "goal",
+          "description": "latest user goal, authorization, and forbidden actions"
+        },
+        {
+          "key": "work",
+          "description": "task IDs, worker thread IDs, status, and owner"
+        },
+        {
+          "key": "acceptance_evidence",
+          "description": "acceptance items and evidence pointers"
+        },
+        {
+          "key": "decisions",
+          "description": "active decisions and supersession links"
+        },
+        {
+          "key": "blockers_external",
+          "description": "blockers, user actions, and external state"
+        },
+        {
+          "key": "next_action",
+          "description": "wait, verify, reject, redispatch, or ask the user"
+        },
+        {
+          "key": "forbidden_actions",
+          "description": "director-forbidden exploration and implementation actions"
+        }
+      ]
+    },
+    "worker": {
+      "purpose": "produce_evidence_or_change",
+      "handoffRequired": false,
+      "allowedActions": [
+        "read_assigned_sources",
+        "investigate",
+        "implement",
+        "test",
+        "write_evidence_report"
+      ]
+    }
+  },
+  "bindings": [
+    {
+      "threadId": "synthetic-director-thread-0001",
+      "profile": "director"
+    }
+  ]
+}

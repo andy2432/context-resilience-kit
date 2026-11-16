@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-01-02T00:00:00Z",
+  "environments": {
+    "production": {
+      "server": {
+        "status": "unverified",
+        "version": "0.1.0",
+        "buildSha": null,
+        "lastObservedAt": null,
+        "evidence": []
+      }
+    }
+  },
+  "externalGates": [
+    {
+      "id": "EXT-SYNTHETIC-APPROVAL",
+      "status": "unverified",
+      "summary": "Synthetic external approval is not available.",
+      "lastCheckedAt": null,
+      "nextCheck": "When a real project is configured",
+      "evidence": []
+    }
+  ]
+}

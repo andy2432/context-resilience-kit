@@ -1,0 +1,114 @@
+{
+  "schemaVersion": 1,
+  "startedAt": "2026-11-16T17:03:39.776Z",
+  "generatedAt": "2026-11-16T17:03:41.405Z",
+  "node": "v24.21.0",
+  "checks": [
+    {
+      "id": "B01",
+      "requirement": "fast/deep/release/role checks do not modify the business tree",
+      "passed": true,
+      "evidence": {
+        "changedPaths": []
+      }
+    },
+    {
+      "id": "B02",
+      "requirement": "normal output remains below 20 lines",
+      "passed": true,
+      "evidence": {
+        "fast": 4,
+        "deep": 4,
+        "release": 4,
+        "role": 4
+      }
+    },
+    {
+      "id": "B03",
+      "requirement": "explicit write mode only changes CONTEXT-RESUME.md",
+      "passed": true,
+      "evidence": {
+        "changedPaths": [
+          "context/CONTEXT-RESUME.md"
+        ]
+      }
+    },
+    {
+      "id": "B04",
+      "requirement": "public repository contains no high-confidence credential material",
+      "passed": true,
+      "evidence": {
+        "scannedFiles": 53,
+        "findings": []
+      }
+    },
+    {
+      "id": "B05",
+      "requirement": "doctor core has no network client or deployment integration",
+      "passed": true,
+      "evidence": {
+        "forbiddenRuntime": []
+      }
+    },
+    {
+      "id": "B06",
+      "requirement": "public repository contains no internal workspace paths or private coordination IDs",
+      "passed": true,
+      "evidence": {
+        "findings": []
+      }
+    },
+    {
+      "id": "B07",
+      "requirement": "documented template-to-context installation mapping works end to end",
+      "passed": true,
+      "evidence": {
+        "error": null
+      }
+    },
+    {
+      "id": "B08",
+      "requirement": "write mode fails closed when required context sources are missing",
+      "passed": true,
+      "evidence": {
+        "exitCode": 2,
+        "resumeCreated": false
+      }
+    },
+    {
+      "id": "B09",
+      "requirement": "configured placeholders are matched literally rather than as character classes",
+      "passed": true,
+      "evidence": {
+        "safeStatus": "PASS",
+        "blockedStatus": "BLOCK",
+        "blockedCodes": [
+          "RELEASE_PLACEHOLDER"
+        ]
+      }
+    }
+  ],
+  "passed": true,
+  "outputs": {
+    "fast": {
+      "status": "PASS",
+      "humanOutput": "CONTEXT PASS\nmode=fast head=none branch=none rules=3 open=0 blocks=0 warnings=0\nchecks=schema,refs,decisions,tasks,release,resume,secrets\nnext=continue with task-scoped reads",
+      "humanOutputLines": 4
+    },
+    "deep": {
+      "status": "PASS",
+      "humanOutput": "CONTEXT PASS\nmode=deep head=none branch=none rules=3 open=0 blocks=0 warnings=0\nchecks=schema,refs,decisions,tasks,release,resume,secrets\nnext=continue with task-scoped reads",
+      "humanOutputLines": 4
+    },
+    "release": {
+      "status": "PASS",
+      "humanOutput": "CONTEXT PASS\nmode=release head=none branch=none rules=3 open=0 blocks=0 warnings=0\nchecks=schema,refs,decisions,tasks,release,resume,secrets\nnext=record release evidence and rerun --release",
+      "humanOutputLines": 4
+    },
+    "role": {
+      "status": "PASS",
+      "humanOutput": "CONTEXT PASS\nmode=role head=none branch=none rules=3 open=0 blocks=0 warnings=0\nchecks=schema,refs,decisions,tasks,release,resume,secrets\nnext=continue with task-scoped reads",
+      "humanOutputLines": 4
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "projectName": "Synthetic Project",
+  "paths": {
+    "projectContext": "context/PROJECT-CONTEXT.md",
+    "productContract": "context/PRODUCT-CONTRACT.json",
+    "decisionLog": "context/DECISION-LOG.jsonl",
+    "workState": "context/WORK-STATE.json",
+    "releaseState": "context/RELEASE-STATE.json",
+    "roleContract": "context/ROLE-CONTRACT.json",
+    "taskLog": "context/TASK-LOG.md",
+    "contextResume": "context/CONTEXT-RESUME.md"
+  },
+  "git": {
+    "enabled": true,
+    "requireBaseShaAncestor": true
+  },
+  "releaseScan": {
+    "include": ["src/**", "app/**", "packages/**", "services/**"],
+    "exclude": ["**/*.md", "**/*.example", "**/*.template", "**/tests/**"],
+    "placeholders": ["CHANGE_ME", "REPLACE_ME", "YOUR_API_KEY", "TODO_REQUIRED"],
+    "maxExternalEvidenceAgeHours": 168
+  },
+  "role": {
+    "enabled": true,
+    "allowTitleInference": false,
+    "maxSummaryLines": 20
+  }
+}

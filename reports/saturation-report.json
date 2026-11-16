@@ -1,0 +1,1284 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-11-16T17:03:30.847Z",
+  "startedAt": "2026-11-16T17:03:28.071Z",
+  "kitVersion": "1.1.0",
+  "environment": {
+    "node": "v24.21.0",
+    "platform": "win32",
+    "arch": "x64"
+  },
+  "summary": {
+    "scenarios": 16,
+    "passed": 16,
+    "failed": 0,
+    "hardGateScenarios": 12,
+    "hardGateBlocked": 12,
+    "hardGateBlockRate": 100,
+    "kitRecoveryAnswers": 36,
+    "kitRecoveryQuestions": 36,
+    "kitRecoveryAccuracy": 100,
+    "baselineRecoveryAnswers": 4,
+    "baselineRecoveryQuestions": 36,
+    "baselineRecoveryAccuracy": 11.11,
+    "maxNormalOutputLines": 4,
+    "releaseGatePassed": true
+  },
+  "remediationHistory": [
+    {
+      "id": "FIX-001",
+      "discoveredBy": "initial harness run",
+      "failure": "Decision entries with supersededBy=null were incorrectly treated as missing fields.",
+      "cause": "Required-field validation did not distinguish missing properties from intentional null values.",
+      "repair": "Validate property presence for supersededBy and allow nullable threadId values.",
+      "retest": "The synthetic example passed fast and release modes after regeneration."
+    },
+    {
+      "id": "FIX-002",
+      "discoveredBy": "initial harness run",
+      "failure": "A freshly generated resume was incorrectly reported as hand-tampered.",
+      "cause": "Payload extraction removed only one of the two separators after the metadata comment.",
+      "repair": "Normalize all leading newlines before recomputing the resume payload hash.",
+      "retest": "A generated resume passed freshness verification; manual tamper detection remained active."
+    },
+    {
+      "id": "FIX-003",
+      "discoveredBy": "S14/S16 initial saturated run",
+      "failure": "Tamper scenarios regenerated the resume after making their mutation, overwriting the test fault.",
+      "cause": "The harness applied fault injection before its standard resume-generation step.",
+      "repair": "Add a post-generation fault hook and run resume tamper injection only after --write-equivalent generation.",
+      "retest": "S14 and S16 both return RESUME_TAMPERED, and the full suite passes."
+    }
+  ],
+  "scenarios": [
+    {
+      "id": "S01",
+      "title": "Complete cold start",
+      "category": "information",
+      "input": "No prior chat history, no inherited summary.",
+      "mode": "fast",
+      "expected": {
+        "status": "PASS",
+        "codes": []
+      },
+      "actual": {
+        "status": "PASS",
+        "exitCode": 0,
+        "codes": [],
+        "blockCount": 0,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT PASS\nmode=fast head=none branch=none rules=3 open=0 blocks=0 warnings=0\nchecks=schema,refs,decisions,tasks,release,resume,secrets\nnext=continue with task-scoped reads",
+        "humanOutputLines": 4
+      },
+      "baseline": {
+        "decision": "ANSWER",
+        "summary": "accuracy=0.0% (0/8)",
+        "reason": "There is no summary or chat memory for a naive executor to consult.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": [
+          {
+            "id": "project-name",
+            "prompt": "What synthetic project is this?",
+            "expected": "Orchid Notes",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "public-rule",
+            "prompt": "Does INV-PUBLIC-MODE-001 remain active?",
+            "expected": "yes",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "deploy-rule",
+            "prompt": "Does INV-NO-AUTO-DEPLOY-001 remain active?",
+            "expected": "yes",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "public-statement",
+            "prompt": "What is the binding public-mode statement?",
+            "expected": "The public boundary remains in safe mode.",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "deploy-statement",
+            "prompt": "What is the binding deployment statement?",
+            "expected": "Context checks have no deployment side effect.",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "open-count",
+            "prompt": "How many work items remain open?",
+            "expected": "0",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "production-status",
+            "prompt": "What does release state claim for production server status?",
+            "expected": "unverified",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "external-gate",
+            "prompt": "What is EXT-SYNTHETIC-APPROVAL state?",
+            "expected": "unverified",
+            "actual": "",
+            "passed": false
+          }
+        ]
+      },
+      "recovery": {
+        "kitPassed": 8,
+        "kitTotal": 8,
+        "baselinePassed": 0,
+        "baselineTotal": 8,
+        "questions": [
+          {
+            "id": "project-name",
+            "prompt": "What synthetic project is this?",
+            "expected": "Orchid Notes",
+            "actual": "Orchid Notes",
+            "passed": true
+          },
+          {
+            "id": "public-rule",
+            "prompt": "Does INV-PUBLIC-MODE-001 remain active?",
+            "expected": "yes",
+            "actual": "yes",
+            "passed": true
+          },
+          {
+            "id": "deploy-rule",
+            "prompt": "Does INV-NO-AUTO-DEPLOY-001 remain active?",
+            "expected": "yes",
+            "actual": "yes",
+            "passed": true
+          },
+          {
+            "id": "public-statement",
+            "prompt": "What is the binding public-mode statement?",
+            "expected": "The public boundary remains in safe mode.",
+            "actual": "The public boundary remains in safe mode.",
+            "passed": true
+          },
+          {
+            "id": "deploy-statement",
+            "prompt": "What is the binding deployment statement?",
+            "expected": "Context checks have no deployment side effect.",
+            "actual": "Context checks have no deployment side effect.",
+            "passed": true
+          },
+          {
+            "id": "open-count",
+            "prompt": "How many work items remain open?",
+            "expected": "0",
+            "actual": "0",
+            "passed": true
+          },
+          {
+            "id": "production-status",
+            "prompt": "What does release state claim for production server status?",
+            "expected": "unverified",
+            "actual": "unverified",
+            "passed": true
+          },
+          {
+            "id": "external-gate",
+            "prompt": "What is EXT-SYNTHETIC-APPROVAL state?",
+            "expected": "unverified",
+            "actual": "unverified",
+            "passed": true
+          }
+        ]
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S01",
+        "fixtureHash": "831e6b3ebf9b6ebc88aee0d2b4239ae18391754a05d349083a916224966c3ee6"
+      }
+    },
+    {
+      "id": "S02",
+      "title": "Five-percent summary omits key decision",
+      "category": "information",
+      "input": "Five-percent summary: Orchid Notes task is in progress. Build passed.",
+      "mode": "fast",
+      "expected": {
+        "status": "PASS",
+        "codes": []
+      },
+      "actual": {
+        "status": "PASS",
+        "exitCode": 0,
+        "codes": [],
+        "blockCount": 0,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT PASS\nmode=fast head=none branch=none rules=3 open=0 blocks=0 warnings=0\nchecks=schema,refs,decisions,tasks,release,resume,secrets\nnext=continue with task-scoped reads",
+        "humanOutputLines": 4
+      },
+      "baseline": {
+        "decision": "ANSWER",
+        "summary": "accuracy=11.1% (1/9)",
+        "reason": "The compressed summary retained the project name and build result but omitted the retention decision.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": [
+          {
+            "id": "project-name",
+            "prompt": "What synthetic project is this?",
+            "expected": "Orchid Notes",
+            "actual": "Orchid Notes",
+            "passed": true
+          },
+          {
+            "id": "public-rule",
+            "prompt": "Does INV-PUBLIC-MODE-001 remain active?",
+            "expected": "yes",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "deploy-rule",
+            "prompt": "Does INV-NO-AUTO-DEPLOY-001 remain active?",
+            "expected": "yes",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "public-statement",
+            "prompt": "What is the binding public-mode statement?",
+            "expected": "The public boundary remains in safe mode.",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "deploy-statement",
+            "prompt": "What is the binding deployment statement?",
+            "expected": "Context checks have no deployment side effect.",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "open-count",
+            "prompt": "How many work items remain open?",
+            "expected": "0",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "production-status",
+            "prompt": "What does release state claim for production server status?",
+            "expected": "unverified",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "external-gate",
+            "prompt": "What is EXT-SYNTHETIC-APPROVAL state?",
+            "expected": "unverified",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "missing-decision",
+            "prompt": "What retention outcome remains active?",
+            "expected": "seven-day retention",
+            "actual": "",
+            "passed": false
+          }
+        ]
+      },
+      "recovery": {
+        "kitPassed": 9,
+        "kitTotal": 9,
+        "baselinePassed": 1,
+        "baselineTotal": 9,
+        "questions": [
+          {
+            "id": "project-name",
+            "prompt": "What synthetic project is this?",
+            "expected": "Orchid Notes",
+            "actual": "Orchid Notes",
+            "passed": true
+          },
+          {
+            "id": "public-rule",
+            "prompt": "Does INV-PUBLIC-MODE-001 remain active?",
+            "expected": "yes",
+            "actual": "yes",
+            "passed": true
+          },
+          {
+            "id": "deploy-rule",
+            "prompt": "Does INV-NO-AUTO-DEPLOY-001 remain active?",
+            "expected": "yes",
+            "actual": "yes",
+            "passed": true
+          },
+          {
+            "id": "public-statement",
+            "prompt": "What is the binding public-mode statement?",
+            "expected": "The public boundary remains in safe mode.",
+            "actual": "The public boundary remains in safe mode.",
+            "passed": true
+          },
+          {
+            "id": "deploy-statement",
+            "prompt": "What is the binding deployment statement?",
+            "expected": "Context checks have no deployment side effect.",
+            "actual": "Context checks have no deployment side effect.",
+            "passed": true
+          },
+          {
+            "id": "open-count",
+            "prompt": "How many work items remain open?",
+            "expected": "0",
+            "actual": "0",
+            "passed": true
+          },
+          {
+            "id": "production-status",
+            "prompt": "What does release state claim for production server status?",
+            "expected": "unverified",
+            "actual": "unverified",
+            "passed": true
+          },
+          {
+            "id": "external-gate",
+            "prompt": "What is EXT-SYNTHETIC-APPROVAL state?",
+            "expected": "unverified",
+            "actual": "unverified",
+            "passed": true
+          },
+          {
+            "id": "missing-decision",
+            "prompt": "What retention outcome remains active?",
+            "expected": "seven-day retention",
+            "actual": "seven-day retention",
+            "passed": true
+          }
+        ]
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S02",
+        "fixtureHash": "24cfa57362304e4c9ea2b27c9e2c6d6f9326ba77464842fb19f447806607e32b"
+      }
+    },
+    {
+      "id": "S03",
+      "title": "Summary of a summary compressed three times",
+      "category": "information",
+      "input": "Third-generation summary: One synthetic project. Work continues. No further facts retained.",
+      "mode": "fast",
+      "expected": {
+        "status": "PASS",
+        "codes": []
+      },
+      "actual": {
+        "status": "PASS",
+        "exitCode": 0,
+        "codes": [],
+        "blockCount": 0,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT PASS\nmode=fast head=none branch=none rules=3 open=0 blocks=0 warnings=0\nchecks=schema,refs,decisions,tasks,release,resume,secrets\nnext=continue with task-scoped reads",
+        "humanOutputLines": 4
+      },
+      "baseline": {
+        "decision": "ANSWER",
+        "summary": "accuracy=11.1% (1/9)",
+        "reason": "The third-generation summary says work continues but lost the binding cadence.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": [
+          {
+            "id": "project-name",
+            "prompt": "What synthetic project is this?",
+            "expected": "Orchid Notes",
+            "actual": "Orchid Notes",
+            "passed": true
+          },
+          {
+            "id": "public-rule",
+            "prompt": "Does INV-PUBLIC-MODE-001 remain active?",
+            "expected": "yes",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "deploy-rule",
+            "prompt": "Does INV-NO-AUTO-DEPLOY-001 remain active?",
+            "expected": "yes",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "public-statement",
+            "prompt": "What is the binding public-mode statement?",
+            "expected": "The public boundary remains in safe mode.",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "deploy-statement",
+            "prompt": "What is the binding deployment statement?",
+            "expected": "Context checks have no deployment side effect.",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "open-count",
+            "prompt": "How many work items remain open?",
+            "expected": "0",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "production-status",
+            "prompt": "What does release state claim for production server status?",
+            "expected": "unverified",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "external-gate",
+            "prompt": "What is EXT-SYNTHETIC-APPROVAL state?",
+            "expected": "unverified",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "triple-compressed-decision",
+            "prompt": "What external-evidence review cadence remains active?",
+            "expected": "72-hour evidence review",
+            "actual": "",
+            "passed": false
+          }
+        ]
+      },
+      "recovery": {
+        "kitPassed": 9,
+        "kitTotal": 9,
+        "baselinePassed": 1,
+        "baselineTotal": 9,
+        "questions": [
+          {
+            "id": "project-name",
+            "prompt": "What synthetic project is this?",
+            "expected": "Orchid Notes",
+            "actual": "Orchid Notes",
+            "passed": true
+          },
+          {
+            "id": "public-rule",
+            "prompt": "Does INV-PUBLIC-MODE-001 remain active?",
+            "expected": "yes",
+            "actual": "yes",
+            "passed": true
+          },
+          {
+            "id": "deploy-rule",
+            "prompt": "Does INV-NO-AUTO-DEPLOY-001 remain active?",
+            "expected": "yes",
+            "actual": "yes",
+            "passed": true
+          },
+          {
+            "id": "public-statement",
+            "prompt": "What is the binding public-mode statement?",
+            "expected": "The public boundary remains in safe mode.",
+            "actual": "The public boundary remains in safe mode.",
+            "passed": true
+          },
+          {
+            "id": "deploy-statement",
+            "prompt": "What is the binding deployment statement?",
+            "expected": "Context checks have no deployment side effect.",
+            "actual": "Context checks have no deployment side effect.",
+            "passed": true
+          },
+          {
+            "id": "open-count",
+            "prompt": "How many work items remain open?",
+            "expected": "0",
+            "actual": "0",
+            "passed": true
+          },
+          {
+            "id": "production-status",
+            "prompt": "What does release state claim for production server status?",
+            "expected": "unverified",
+            "actual": "unverified",
+            "passed": true
+          },
+          {
+            "id": "external-gate",
+            "prompt": "What is EXT-SYNTHETIC-APPROVAL state?",
+            "expected": "unverified",
+            "actual": "unverified",
+            "passed": true
+          },
+          {
+            "id": "triple-compressed-decision",
+            "prompt": "What external-evidence review cadence remains active?",
+            "expected": "72-hour evidence review",
+            "actual": "72-hour evidence review",
+            "passed": true
+          }
+        ]
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S03",
+        "fixtureHash": "52da19c8cf357568beb2ad0b1ca3c9cbe624434e8722cda21725ad2f91452769"
+      }
+    },
+    {
+      "id": "S04",
+      "title": "Current documents contradict each other",
+      "category": "hard-gate",
+      "input": "The latest note says unsafe mode; the older contract says safe mode.",
+      "mode": "fast",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "FORBIDDEN_CURRENT_CLAIM"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "FORBIDDEN_CURRENT_CLAIM"
+        ],
+        "blockCount": 1,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=fast head=none branch=none rules=3 open=0 blocks=1 warnings=0\nBLOCK FORBIDDEN_CURRENT_CLAIM CURRENT-NOTES.md:3 [INV-PUBLIC-MODE-001]\n  INV-PUBLIC-MODE-001 found stale claim /public mode is (?:debug|unsafe)/ in CURRENT-NOTES.md.\n  action: Remove the conflicting current claim or append a decision.",
+        "humanOutputLines": 5
+      },
+      "baseline": {
+        "decision": "PROCEED",
+        "summary": "decision=PROCEED",
+        "reason": "A naive executor trusts the newest prose note and proceeds with unsafe mode.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S04",
+        "fixtureHash": "bab00475ecea4461baf80670e2d6b63155abc68739a1da5187ef22e8331eb41c"
+      }
+    },
+    {
+      "id": "S05",
+      "title": "Current code conflicts with a user rule",
+      "category": "hard-gate",
+      "input": "Tests are green; current source sets public mode to unsafe.",
+      "mode": "fast",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "PROBE_FILE_REGEX_MISSING"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "PROBE_FILE_REGEX_MISSING"
+        ],
+        "blockCount": 1,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=fast head=none branch=none rules=3 open=0 blocks=1 warnings=0\nBLOCK PROBE_FILE_REGEX_MISSING src/index.js [INV-PUBLIC-MODE-001]\n  INV-PUBLIC-MODE-001 expected /PUBLIC_MODE\\s*=\\s*['\"]safe['\"]/ in src/index.js.\n  action: Restore the required implementation or append an approved decision.",
+        "humanOutputLines": 5
+      },
+      "baseline": {
+        "decision": "PROCEED",
+        "summary": "decision=PROCEED",
+        "reason": "A naive executor treats passing local code as authority and reverses the user-approved rule.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S05",
+        "fixtureHash": "8ccb0a5308d50e44a0f0996fede0da76e0ef6c2b67d2699cc99e231706d8c70d"
+      }
+    },
+    {
+      "id": "S06",
+      "title": "Mid-task handoff with unfinished work",
+      "category": "information",
+      "input": "Previous executor stopped before handoff. Unfinished items may remain.",
+      "mode": "fast",
+      "expected": {
+        "status": "PASS",
+        "codes": []
+      },
+      "actual": {
+        "status": "PASS",
+        "exitCode": 0,
+        "codes": [],
+        "blockCount": 0,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT PASS\nmode=fast head=none branch=none rules=3 open=1 blocks=0 warnings=0\nchecks=schema,refs,decisions,tasks,release,resume,secrets\nnext=continue with task-scoped reads",
+        "humanOutputLines": 4
+      },
+      "baseline": {
+        "decision": "ANSWER",
+        "summary": "accuracy=20.0% (2/10)",
+        "reason": "The compressed handoff retained project and coarse status but lost the exact next action and binding rules.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": [
+          {
+            "id": "project-name",
+            "prompt": "What synthetic project is this?",
+            "expected": "Orchid Notes",
+            "actual": "Orchid Notes",
+            "passed": true
+          },
+          {
+            "id": "public-rule",
+            "prompt": "Does INV-PUBLIC-MODE-001 remain active?",
+            "expected": "yes",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "deploy-rule",
+            "prompt": "Does INV-NO-AUTO-DEPLOY-001 remain active?",
+            "expected": "yes",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "public-statement",
+            "prompt": "What is the binding public-mode statement?",
+            "expected": "The public boundary remains in safe mode.",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "deploy-statement",
+            "prompt": "What is the binding deployment statement?",
+            "expected": "Context checks have no deployment side effect.",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "production-status",
+            "prompt": "What does release state claim for production server status?",
+            "expected": "unverified",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "external-gate",
+            "prompt": "What is EXT-SYNTHETIC-APPROVAL state?",
+            "expected": "unverified",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "open-count",
+            "prompt": "How many work items remain open?",
+            "expected": "1",
+            "actual": "",
+            "passed": false
+          },
+          {
+            "id": "handoff-status",
+            "prompt": "What is TASK-20260103-001 status?",
+            "expected": "ready_for_review",
+            "actual": "ready_for_review",
+            "passed": true
+          },
+          {
+            "id": "handoff-next",
+            "prompt": "What is TASK-20260103-001 next action?",
+            "expected": "Independent reviewer runs the normalization test.",
+            "actual": "",
+            "passed": false
+          }
+        ]
+      },
+      "recovery": {
+        "kitPassed": 10,
+        "kitTotal": 10,
+        "baselinePassed": 2,
+        "baselineTotal": 10,
+        "questions": [
+          {
+            "id": "project-name",
+            "prompt": "What synthetic project is this?",
+            "expected": "Orchid Notes",
+            "actual": "Orchid Notes",
+            "passed": true
+          },
+          {
+            "id": "public-rule",
+            "prompt": "Does INV-PUBLIC-MODE-001 remain active?",
+            "expected": "yes",
+            "actual": "yes",
+            "passed": true
+          },
+          {
+            "id": "deploy-rule",
+            "prompt": "Does INV-NO-AUTO-DEPLOY-001 remain active?",
+            "expected": "yes",
+            "actual": "yes",
+            "passed": true
+          },
+          {
+            "id": "public-statement",
+            "prompt": "What is the binding public-mode statement?",
+            "expected": "The public boundary remains in safe mode.",
+            "actual": "The public boundary remains in safe mode.",
+            "passed": true
+          },
+          {
+            "id": "deploy-statement",
+            "prompt": "What is the binding deployment statement?",
+            "expected": "Context checks have no deployment side effect.",
+            "actual": "Context checks have no deployment side effect.",
+            "passed": true
+          },
+          {
+            "id": "production-status",
+            "prompt": "What does release state claim for production server status?",
+            "expected": "unverified",
+            "actual": "unverified",
+            "passed": true
+          },
+          {
+            "id": "external-gate",
+            "prompt": "What is EXT-SYNTHETIC-APPROVAL state?",
+            "expected": "unverified",
+            "actual": "unverified",
+            "passed": true
+          },
+          {
+            "id": "open-count",
+            "prompt": "How many work items remain open?",
+            "expected": "1",
+            "actual": "1",
+            "passed": true
+          },
+          {
+            "id": "handoff-status",
+            "prompt": "What is TASK-20260103-001 status?",
+            "expected": "ready_for_review",
+            "actual": "ready_for_review",
+            "passed": true
+          },
+          {
+            "id": "handoff-next",
+            "prompt": "What is TASK-20260103-001 next action?",
+            "expected": "Independent reviewer runs the normalization test.",
+            "actual": "Independent reviewer runs the normalization test.",
+            "passed": true
+          }
+        ]
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S06",
+        "fixtureHash": "8f71bfac716bff0b4a2c7abaf32aae52ae7ddc7a69aa114f64ec045fd50761c3"
+      }
+    },
+    {
+      "id": "S07",
+      "title": "Production, manifest, and version endpoint drift",
+      "category": "hard-gate",
+      "input": "Release summary says deployed, but no version comparison is included.",
+      "mode": "release",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "RELEASE_VERSION_DRIFT"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "RELEASE_VERSION_DRIFT"
+        ],
+        "blockCount": 1,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=release head=none branch=none rules=3 open=0 blocks=1 warnings=0\nBLOCK RELEASE_VERSION_DRIFT context/RELEASE-STATE.json\n  production build SHA mismatch: RELEASE-STATE=deadbeef, manifest=deadbeef, version=cafebabe\n  action: Stop release and reconcile declared, manifest, and observed versions.",
+        "humanOutputLines": 5
+      },
+      "baseline": {
+        "decision": "AUTHORIZE_RELEASE",
+        "summary": "decision=AUTHORIZE_RELEASE",
+        "reason": "A naive executor trusts the word deployed and misses declared/manifest/observed SHA disagreement.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S07",
+        "fixtureHash": "72e2047892af5244c9845fe2391dcb2a5640ee07af93b6d5443f993e3aba5f9e"
+      }
+    },
+    {
+      "id": "S08",
+      "title": "External approval evidence is expired",
+      "category": "hard-gate",
+      "input": "An approval screenshot exists, so the external gate is probably still valid.",
+      "mode": "release",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "EXTERNAL_GATE_STALE"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "EXTERNAL_GATE_STALE"
+        ],
+        "blockCount": 1,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=release head=none branch=none rules=3 open=0 blocks=1 warnings=0\nBLOCK EXTERNAL_GATE_STALE context/RELEASE-STATE.json\n  EXT-SYNTHETIC-APPROVAL evidence is older than 72 hours.\n  action: Recheck the external system and attach a fresh receipt.",
+        "humanOutputLines": 5
+      },
+      "baseline": {
+        "decision": "AUTHORIZE_RELEASE",
+        "summary": "decision=AUTHORIZE_RELEASE",
+        "reason": "A naive executor sees an evidence filename and ignores its age.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S08",
+        "fixtureHash": "2ecef4951eedd8053def7dafca0e429b1394016d660f412d40b2784702d44bb8"
+      }
+    },
+    {
+      "id": "S09",
+      "title": "Agent suggestion recorded as a user decision",
+      "category": "hard-gate",
+      "input": "An agent proposal says safe mode can be removed.",
+      "mode": "fast",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "UNTRUSTED_DECISION_ACCEPTED",
+          "RULE_REVERSED_WITHOUT_DECISION"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "RULE_REVERSED_WITHOUT_DECISION",
+          "UNTRUSTED_DECISION_ACCEPTED"
+        ],
+        "blockCount": 2,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=fast head=none branch=none rules=3 open=0 blocks=2 warnings=0\nBLOCK UNTRUSTED_DECISION_ACCEPTED\n  DEC-20260102-001 is accepted from sourceType=agent; only user/director/external/technical-constraint can bind.\nBLOCK RULE_REVERSED_WITHOUT_DECISION context/PRODUCT-CONTRACT.json [INV-PUBLIC-MODE-001]\n  INV-PUBLIC-MODE-001.decisionOutcome differs from DEC-20260102-001.outcome; append a new decision and supersede the old one.",
+        "humanOutputLines": 6
+      },
+      "baseline": {
+        "decision": "PROCEED",
+        "summary": "decision=PROCEED",
+        "reason": "A naive executor treats any accepted JSONL record as user intent.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S09",
+        "fixtureHash": "761c61c6eb1eaf300ab15ce2bd12cc9de066da9f1694fb62b61ee829430f1ce8"
+      }
+    },
+    {
+      "id": "S10",
+      "title": "Rule reversed without a new decision",
+      "category": "hard-gate",
+      "input": "Contract says unsafe mode; the original user decision still says safe mode.",
+      "mode": "fast",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "RULE_REVERSED_WITHOUT_DECISION"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "RULE_REVERSED_WITHOUT_DECISION"
+        ],
+        "blockCount": 1,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=fast head=none branch=none rules=3 open=0 blocks=1 warnings=0\nBLOCK RULE_REVERSED_WITHOUT_DECISION context/PRODUCT-CONTRACT.json [INV-PUBLIC-MODE-001]\n  INV-PUBLIC-MODE-001.decisionOutcome differs from DEC-20260102-001.outcome; append a new decision and supersede the old one.",
+        "humanOutputLines": 4
+      },
+      "baseline": {
+        "decision": "PROCEED",
+        "summary": "decision=PROCEED",
+        "reason": "A naive executor treats the edited current contract as authority without checking its decision chain.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S10",
+        "fixtureHash": "bedf52a170f191a2be63089c1ae3b8b14038f1e2cd171dee7726f98bf9a231df"
+      }
+    },
+    {
+      "id": "S11",
+      "title": "Release candidate contains placeholder and token",
+      "category": "hard-gate",
+      "input": "Build succeeded, so the release candidate should be ready.",
+      "mode": "release",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "RELEASE_PLACEHOLDER",
+          "SECRET_AWS_KEY"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "RELEASE_PLACEHOLDER",
+          "SECRET_AWS_KEY"
+        ],
+        "blockCount": 2,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=release head=none branch=none rules=3 open=0 blocks=2 warnings=0\nBLOCK SECRET_AWS_KEY src/config.js:1\n  src/config.js contains AWS access key pattern.\n  action: Remove and revoke the credential before release.\nBLOCK RELEASE_PLACEHOLDER src/config.js:1\n  src/config.js still contains release placeholder /YOUR_API_KEY/.\n  action: Replace the placeholder with approved production content.",
+        "humanOutputLines": 8
+      },
+      "baseline": {
+        "decision": "AUTHORIZE_RELEASE",
+        "summary": "decision=AUTHORIZE_RELEASE",
+        "reason": "A naive executor equates a successful build with a safe release artifact.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S11",
+        "fixtureHash": "531566b56e381a044f50edca60b00473d5c18ba633b5158d0a8a2894e69cc0ff"
+      }
+    },
+    {
+      "id": "S12",
+      "title": "Rule evidence reference no longer exists",
+      "category": "hard-gate",
+      "input": "The rule still appears in a summary; its evidence link is broken.",
+      "mode": "fast",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "EVIDENCE_REF_INVALID"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "EVIDENCE_REF_INVALID"
+        ],
+        "blockCount": 1,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=fast head=none branch=none rules=3 open=0 blocks=1 warnings=0\nBLOCK EVIDENCE_REF_INVALID context/PRODUCT-CONTRACT.json [INV-PUBLIC-MODE-001]\n  INV-PUBLIC-MODE-001 references missing evidence: src/deleted-file.js#old-anchor",
+        "humanOutputLines": 4
+      },
+      "baseline": {
+        "decision": "PROCEED",
+        "summary": "decision=PROCEED",
+        "reason": "A naive executor copies the rule from a summary without resolving evidence.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S12",
+        "fixtureHash": "55b9bc8f67da8317c4587799c6150fbe9ba3b21f75d40ecec8c1bd3643bc145f"
+      }
+    },
+    {
+      "id": "S13",
+      "title": "Task closed in ledger but still open in work state",
+      "category": "hard-gate",
+      "input": "Summary says the task is done, but work cleanup is unknown.",
+      "mode": "fast",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "CLOSED_TASK_STILL_OPEN"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "CLOSED_TASK_STILL_OPEN"
+        ],
+        "blockCount": 1,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=fast head=none branch=none rules=3 open=1 blocks=1 warnings=0\nBLOCK CLOSED_TASK_STILL_OPEN context/WORK-STATE.json\n  TASK-20260103-999 is closed in TASK-LOG but remains in WORK-STATE.",
+        "humanOutputLines": 4
+      },
+      "baseline": {
+        "decision": "PROCEED",
+        "summary": "decision=PROCEED",
+        "reason": "A naive executor trusts the 'done' summary and leaves contradictory open state.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S13",
+        "fixtureHash": "f9cad5b66e4d6e7f9896f593dc86e158e7fb6e0c17f7fbd3d36a1e53db486375"
+      }
+    },
+    {
+      "id": "S14",
+      "title": "Generated resume was manually edited",
+      "category": "hard-gate",
+      "input": "Someone added a helpful fact directly to the recovery summary.",
+      "mode": "fast",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "RESUME_TAMPERED"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "RESUME_TAMPERED"
+        ],
+        "blockCount": 1,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=fast head=none branch=none rules=3 open=0 blocks=1 warnings=0\nBLOCK RESUME_TAMPERED context/CONTEXT-RESUME.md\n  CONTEXT-RESUME payload does not match its source-derived content.\n  action: Discard manual edits and regenerate the file.",
+        "humanOutputLines": 5
+      },
+      "baseline": {
+        "decision": "PROCEED",
+        "summary": "decision=PROCEED",
+        "reason": "A naive executor treats every line in the recovery file as authoritative.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S14",
+        "fixtureHash": "8f74910e2ca91a6d5ac6c8ba30734b28e5bee18a3b8e3e70a54dc30f8ed1ec2f"
+      }
+    },
+    {
+      "id": "S15",
+      "title": "Path rename invalidates references",
+      "category": "hard-gate",
+      "input": "The main source file was renamed, but old links remain in context.",
+      "mode": "fast",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "PROJECT_SOURCE_REF_INVALID",
+          "EVIDENCE_REF_INVALID",
+          "PROBE_REQUIRED_FILE_MISSING"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "EVIDENCE_REF_INVALID",
+          "PROBE_REQUIRED_FILE_MISSING",
+          "PROBE_SCAN_FILE_MISSING",
+          "PROJECT_SOURCE_REF_INVALID"
+        ],
+        "blockCount": 5,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=fast head=none branch=none rules=3 open=0 blocks=5 warnings=0\nBLOCK PROJECT_SOURCE_REF_INVALID context/PROJECT-CONTEXT.md\n  PROJECT-CONTEXT sourceRef is missing: src/index.js\nBLOCK EVIDENCE_REF_INVALID context/PRODUCT-CONTRACT.json [INV-PUBLIC-MODE-001]\n  INV-PUBLIC-MODE-001 references missing evidence: src/index.js#PUBLIC_MODE\nBLOCK EVIDENCE_REF_INVALID context/PRODUCT-CONTRACT.json [INV-NO-AUTO-DEPLOY-001]\n  INV-NO-AUTO-DEPLOY-001 references missing evidence: src/index.js\nBLOCK PROBE_REQUIRED_FILE_MISSING src/index.js [INV-PUBLIC-MODE-001]\n  INV-PUBLIC-MODE-001 probe file does not exist: src/index.js\nBLOCK PROBE_SCAN_FILE_MISSING src/index.js [INV-NO-AUTO-DEPLOY-001]\n  INV-NO-AUTO-DEPLOY-001 probe file does not exist: src/index.js",
+        "humanOutputLines": 12
+      },
+      "baseline": {
+        "decision": "PROCEED",
+        "summary": "decision=PROCEED",
+        "reason": "A naive executor sees a summary-level path and does not resolve it after the rename.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S15",
+        "fixtureHash": "9ed0c993b63aa444f2349b4e4157d0a5b6a473b58becfea7bdddfadf1ee7c4f6"
+      }
+    },
+    {
+      "id": "S16",
+      "title": "Random combination: drift, stale external gate, and tamper",
+      "category": "hard-gate",
+      "input": "A combined failure is summarized as 'release looked fine yesterday'.",
+      "mode": "release",
+      "expected": {
+        "status": "BLOCK",
+        "codes": [
+          "RELEASE_VERSION_DRIFT",
+          "EXTERNAL_GATE_STALE",
+          "RESUME_TAMPERED"
+        ]
+      },
+      "actual": {
+        "status": "BLOCK",
+        "exitCode": 1,
+        "codes": [
+          "EXTERNAL_GATE_STALE",
+          "RELEASE_VERSION_DRIFT",
+          "RESUME_TAMPERED"
+        ],
+        "blockCount": 3,
+        "warningCount": 0,
+        "humanOutput": "CONTEXT BLOCK\nmode=release head=none branch=none rules=3 open=0 blocks=3 warnings=0\nBLOCK RELEASE_VERSION_DRIFT context/RELEASE-STATE.json\n  production build SHA mismatch: RELEASE-STATE=deadbeef, manifest=deadbeef, version=cafebabe\n  action: Stop release and reconcile declared, manifest, and observed versions.\nBLOCK EXTERNAL_GATE_STALE context/RELEASE-STATE.json\n  EXT-SYNTHETIC-APPROVAL evidence is older than 72 hours.\n  action: Recheck the external system and attach a fresh receipt.\nBLOCK RESUME_TAMPERED context/CONTEXT-RESUME.md\n  CONTEXT-RESUME payload does not match its source-derived content.\n  action: Discard manual edits and regenerate the file.",
+        "humanOutputLines": 11
+      },
+      "baseline": {
+        "decision": "AUTHORIZE_RELEASE",
+        "summary": "decision=AUTHORIZE_RELEASE",
+        "reason": "A naive executor collapses three independent failures into one optimistic sentence.",
+        "provedUnsafeOrIncomplete": true,
+        "questions": []
+      },
+      "recovery": {
+        "kitPassed": 0,
+        "kitTotal": 0,
+        "baselinePassed": 0,
+        "baselineTotal": 0,
+        "questions": []
+      },
+      "result": "PASS",
+      "failureReasons": [],
+      "trace": {
+        "stderr": null,
+        "fixturePath": "<temporary-isolated-fixture>/S16",
+        "fixtureHash": "fff9c48ea9d1f40ebce36cc340d93e94c35953c143c7f816f7df259170372c6d"
+      }
+    }
+  ]
+}

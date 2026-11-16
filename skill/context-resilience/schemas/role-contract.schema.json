@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/context-resilience/role-contract.schema.json",
+  "title": "Role Contract",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "revision",
+    "updatedAt",
+    "authorization",
+    "profiles",
+    "bindings"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "authorization": {
+      "type": "object",
+      "required": ["sourceType", "reference", "decisionId", "outcome"],
+      "properties": {
+        "sourceType": {
+          "const": "user"
+        },
+        "reference": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decisionId": {
+          "type": "string",
+          "pattern": "^DEC-[A-Z0-9-]+$"
+        },
+        "outcome": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "additionalProperties": true
+    },
+    "profiles": {
+      "type": "object",
+      "required": ["director", "worker"],
+      "properties": {
+        "director": {
+          "$ref": "#/$defs/director"
+        },
+        "worker": {
+          "$ref": "#/$defs/worker"
+        }
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/profile"
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["threadId", "profile"],
+        "properties": {
+          "threadId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "profile": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "$defs": {
+    "profile": {
+      "type": "object",
+      "required": ["purpose", "handoffRequired", "allowedActions"],
+      "properties": {
+        "purpose": {
+          "type": "string"
+        },
+        "handoffRequired": {
+          "type": "boolean"
+        },
+        "allowedActions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "director": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/profile"
+        },
+        {
+          "type": "object",
+          "required": [
+            "forbiddenActions",
+            "verificationBudget",
+            "minimumMemory",
+            "dispatchPriority"
+          ],
+          "properties": {
+            "forbiddenActions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "verificationBudget": {
+              "type": "object",
+              "required": [
+                "maxReadOperationsPerDelivery",
+                "maxNamedFiles",
+                "maxNamedCommands",
+                "maxPreciseThreadReads",
+                "allowWildcardSearch",
+                "allowFollowOnInvestigation"
+              ],
+              "properties": {
+                "maxReadOperationsPerDelivery": {
+                  "type": "integer",
+                  "maximum": 1,
+                  "minimum": 0
+                },
+                "maxNamedFiles": {
+                  "type": "integer",
+                  "maximum": 1,
+                  "minimum": 0
+                },
+                "maxNamedCommands": {
+                  "type": "integer",
+                  "maximum": 1,
+                  "minimum": 0
+                },
+                "maxPreciseThreadReads": {
+                  "type": "integer",
+                  "maximum": 1,
+                  "minimum": 0
+                },
+                "allowWildcardSearch": {
+                  "const": false
+                },
+                "allowFollowOnInvestigation": {
+                  "const": false
+                }
+              },
+              "additionalProperties": true
+            },
+            "minimumMemory": {
+              "type": "array",
+              "minItems": 8,
+              "items": {
+                "type": "object",
+                "required": ["key", "description"],
+                "properties": {
+                  "key": {
+                    "enum": [
+                      "role",
+                      "goal",
+                      "work",
+                      "acceptance_evidence",
+                      "decisions",
+                      "blockers_external",
+                      "next_action",
+                      "forbidden_actions"
+                    ]
+                  },
+                  "description": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "additionalProperties": true
+              }
+            },
+            "dispatchPriority": {
+              "type": "array",
+              "minItems": 3,
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "worker": {
+      "$ref": "#/$defs/profile"
+    }
+  }
+}

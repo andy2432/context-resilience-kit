@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/context-resilience/context-resume.schema.json",
+  "title": "Context Resume Metadata",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "kitVersion",
+    "generatedAt",
+    "sourceHashes",
+    "headAtGeneration",
+    "payloadSha256"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "kitVersion": {
+      "type": "string"
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sourceHashes": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[a-f0-9]{64}$|^MISSING$"
+      }
+    },
+    "headAtGeneration": {
+      "type": ["string", "null"]
+    },
+    "payloadSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "additionalProperties": true
+}

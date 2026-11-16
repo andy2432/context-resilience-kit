@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-01-01T00:00:00Z",
+  "items": [
+    {
+      "id": "INV-PUBLIC-MODE-001",
+      "title": "Public entry uses the approved mode",
+      "class": "security",
+      "status": "active",
+      "authority": "user-approved",
+      "statement": "The public entry uses PUBLIC_MODE=safe.",
+      "decisionId": "DEC-20260101-001",
+      "decisionOutcome": "public mode remains safe",
+      "rationale": "Prevents an implementation change from silently weakening a user-approved boundary.",
+      "owner": "repo-owner",
+      "verifiedAt": "2026-01-01T00:00:00Z",
+      "verifiedBy": "synthetic-example",
+      "evidence": [
+        {
+          "type": "test",
+          "ref": "src/index.js#PUBLIC_MODE"
+        }
+      ],
+      "probes": [
+        {
+          "type": "file_regex",
+          "file": "src/index.js",
+          "pattern": "PUBLIC_MODE\\s*=\\s*['\"]safe['\"]"
+        }
+      ],
+      "forbiddenClaims": [],
+      "reviewAfterDays": 90
+    },
+    {
+      "id": "INV-NO-AUTO-DEPLOY-001",
+      "title": "Context checks do not deploy",
+      "class": "technical",
+      "status": "active",
+      "authority": "user-approved",
+      "statement": "Context checks never invoke deployment commands.",
+      "decisionId": "DEC-20260101-002",
+      "decisionOutcome": "no automatic deployment",
+      "rationale": "Context validation is read-only except for explicit resume generation.",
+      "owner": "repo-owner",
+      "verifiedAt": "2026-01-01T00:00:00Z",
+      "verifiedBy": "synthetic-example",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "src/index.js"
+        }
+      ],
+      "probes": [
+        {
+          "type": "file_not_regex",
+          "file": "src/index.js",
+          "pattern": "deploy\\s*\\("
+        }
+      ],
+      "reviewAfterDays": 180
+    },
+    {
+      "id": "INV-DIRECTOR-DISPATCH-001",
+      "title": "Director remains a context firewall",
+      "class": "technical",
+      "status": "active",
+      "authority": "user-approved",
+      "statement": "Discovery, diagnosis, and implementation are dispatched before director execution.",
+      "decisionId": "DEC-20260101-003",
+      "decisionOutcome": "director is a context firewall",
+      "rationale": "The coordinator must not turn into a broad investigator or implementation worker.",
+      "owner": "repo-owner",
+      "verifiedAt": "2026-01-01T00:00:00Z",
+      "verifiedBy": "synthetic-example",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "context/ROLE-CONTRACT.json#profiles.director"
+        }
+      ],
+      "probes": [
+        {
+          "type": "json_path_equals",
+          "file": "context/ROLE-CONTRACT.json",
+          "path": "$.profiles.director.handoffRequired",
+          "value": true
+        }
+      ],
+      "reviewAfterDays": 90
+    }
+  ]
+}

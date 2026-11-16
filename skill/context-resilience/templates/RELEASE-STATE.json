@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-01-01T00:00:00Z",
+  "environments": {
+    "production": {
+      "server": {
+        "status": "unverified",
+        "buildSha": null,
+        "lastObservedAt": null,
+        "evidence": []
+      }
+    }
+  },
+  "externalGates": [
+    {
+      "id": "EXT-EXAMPLE-APPROVAL",
+      "status": "unverified",
+      "summary": "Replace with a real external gate or remove this sample.",
+      "lastCheckedAt": null,
+      "evidence": []
+    }
+  ]
+}

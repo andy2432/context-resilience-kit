@@ -1,0 +1,135 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/context-resilience/release-state.schema.json",
+  "title": "Release State",
+  "type": "object",
+  "required": ["schemaVersion", "updatedAt", "environments", "externalGates"],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "environments": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/$defs/target"
+        }
+      }
+    },
+    "externalGates": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/gate"
+      }
+    }
+  },
+  "$defs": {
+    "target": {
+      "type": "object",
+      "required": ["status"],
+      "properties": {
+        "status": {
+          "enum": [
+            "proposed",
+            "active",
+            "accepted",
+            "blocked",
+            "waiting_external",
+            "deployed",
+            "released",
+            "unverified",
+            "historical"
+          ]
+        },
+        "version": {
+          "type": "string"
+        },
+        "buildSha": {
+          "type": "string"
+        },
+        "lastObservedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "manifest": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            },
+            "sha256": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true
+        },
+        "versionFile": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string"
+            }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    },
+    "gate": {
+      "type": "object",
+      "required": ["id", "status", "summary", "lastCheckedAt", "evidence"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^EXT-[A-Z0-9-]+$"
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "active",
+            "accepted",
+            "blocked",
+            "waiting_external",
+            "deployed",
+            "released",
+            "verified",
+            "unverified",
+            "historical"
+          ]
+        },
+        "summary": {
+          "type": "string"
+        },
+        "lastCheckedAt": {
+          "type": ["string", "null"],
+          "format": "date-time"
+        },
+        "nextCheck": {
+          "type": ["string", "null"]
+        },
+        "maxAgeHours": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "evidence": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

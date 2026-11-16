@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "projectName": "Orchid Notes",
+  "git": {
+    "enabled": false,
+    "requireBaseShaAncestor": false
+  },
+  "paths": {
+    "projectContext": "context/PROJECT-CONTEXT.md",
+    "productContract": "context/PRODUCT-CONTRACT.json",
+    "decisionLog": "context/DECISION-LOG.jsonl",
+    "workState": "context/WORK-STATE.json",
+    "releaseState": "context/RELEASE-STATE.json",
+    "roleContract": "context/ROLE-CONTRACT.json",
+    "taskLog": "context/TASK-LOG.md",
+    "contextResume": "context/CONTEXT-RESUME.md"
+  },
+  "releaseScan": {
+    "include": ["src/**"],
+    "exclude": ["**/fixtures/**"],
+    "placeholders": ["CHANGE_ME", "REPLACE_ME", "YOUR_API_KEY", "TODO_REQUIRED"],
+    "maxExternalEvidenceAgeHours": 72
+  },
+  "role": {
+    "enabled": true,
+    "allowTitleInference": false,
+    "maxSummaryLines": 20
+  }
+}

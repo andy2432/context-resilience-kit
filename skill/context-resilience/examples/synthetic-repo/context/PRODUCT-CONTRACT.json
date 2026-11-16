@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-01-02T00:00:00Z",
+  "items": [
+    {
+      "id": "INV-PUBLIC-MODE-001",
+      "title": "Public mode remains safe",
+      "class": "security",
+      "status": "active",
+      "authority": "user-approved",
+      "statement": "The public boundary remains in safe mode.",
+      "decisionId": "DEC-20260102-001",
+      "decisionOutcome": "safe mode remains active",
+      "rationale": "Prevents an implementation shortcut from changing user-approved behavior.",
+      "owner": "synthetic-owner",
+      "verifiedAt": "2026-01-02T00:00:00Z",
+      "verifiedBy": "synthetic-review",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "src/index.js#PUBLIC_MODE"
+        }
+      ],
+      "probes": [
+        {
+          "type": "file_regex",
+          "file": "src/index.js",
+          "pattern": "PUBLIC_MODE\\s*=\\s*['\"]safe['\"]"
+        }
+      ],
+      "forbiddenClaims": [
+        {
+          "path": "CURRENT-NOTES.md",
+          "pattern": "public mode is (?:debug|unsafe)",
+          "flags": "i",
+          "action": "Remove the conflicting current claim or append a decision."
+        }
+      ],
+      "reviewAfterDays": 3650
+    },
+    {
+      "id": "INV-NO-AUTO-DEPLOY-001",
+      "title": "Context checks never deploy",
+      "class": "technical",
+      "status": "active",
+      "authority": "user-approved",
+      "statement": "Context checks have no deployment side effect.",
+      "decisionId": "DEC-20260102-002",
+      "decisionOutcome": "no automatic deployment",
+      "rationale": "The check must be safe to run in any repository.",
+      "owner": "synthetic-owner",
+      "verifiedAt": "2026-01-02T00:00:00Z",
+      "verifiedBy": "synthetic-review",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "src/index.js"
+        }
+      ],
+      "probes": [
+        {
+          "type": "file_not_regex",
+          "file": "src/index.js",
+          "pattern": "\\bdeploy\\s*\\("
+        }
+      ],
+      "reviewAfterDays": 3650
+    },
+    {
+      "id": "INV-DIRECTOR-DISPATCH-001",
+      "title": "Director remains a context firewall",
+      "class": "technical",
+      "status": "active",
+      "authority": "user-approved",
+      "statement": "Discovery, diagnosis, and implementation are dispatched before director execution.",
+      "decisionId": "DEC-20260102-003",
+      "decisionOutcome": "director is a context firewall",
+      "rationale": "The coordinator must not turn into a broad investigator or implementation worker.",
+      "owner": "synthetic-owner",
+      "verifiedAt": "2026-01-02T00:00:00Z",
+      "verifiedBy": "synthetic-review",
+      "evidence": [
+        {
+          "type": "file",
+          "ref": "context/ROLE-CONTRACT.json#profiles.director"
+        }
+      ],
+      "probes": [
+        {
+          "type": "json_path_equals",
+          "file": "context/ROLE-CONTRACT.json",
+          "path": "$.profiles.director.handoffRequired",
+          "value": true
+        }
+      ],
+      "reviewAfterDays": 3650
+    }
+  ]
+}

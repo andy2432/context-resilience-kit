@@ -1,0 +1,166 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/context-resilience/product-contract.schema.json",
+  "title": "Product Contract",
+  "type": "object",
+  "required": ["schemaVersion", "updatedAt", "items"],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/rule"
+      }
+    }
+  },
+  "$defs": {
+    "evidence": {
+      "type": "object",
+      "required": ["type", "ref"],
+      "properties": {
+        "type": {
+          "enum": ["decision", "file", "test", "command", "external"]
+        },
+        "ref": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "type": ["string", "null"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "probe": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "enum": [
+            "file_exists",
+            "file_regex",
+            "file_not_regex",
+            "glob_not_matches",
+            "json_path_equals",
+            "test_marker",
+            "git_commit_exists",
+            "evidence_sha256",
+            "manual"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "rule": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "class",
+        "status",
+        "authority",
+        "statement",
+        "decisionId",
+        "decisionOutcome",
+        "owner",
+        "verifiedAt",
+        "verifiedBy",
+        "evidence",
+        "probes"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^INV-[A-Z0-9-]+$"
+        },
+        "title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "class": {
+          "enum": ["product", "compliance", "security", "technical", "commercial", "observed"]
+        },
+        "status": {
+          "enum": ["proposed", "active", "accepted", "superseded", "historical", "unverified"]
+        },
+        "authority": {
+          "enum": ["user-approved", "director-approved", "independent-review", "technical-constraint"]
+        },
+        "statement": {
+          "type": "string",
+          "minLength": 1
+        },
+        "decisionId": {
+          "type": "string",
+          "pattern": "^DEC-[A-Z0-9-]+$"
+        },
+        "decisionOutcome": {
+          "type": "string",
+          "minLength": 1
+        },
+        "owner": {
+          "type": "string",
+          "minLength": 1
+        },
+        "verifiedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "verifiedBy": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/evidence"
+          }
+        },
+        "probes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/probe"
+          }
+        },
+        "forbiddenClaims": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["pattern"],
+            "properties": {
+              "path": {
+                "type": "string"
+              },
+              "glob": {
+                "type": "string"
+              },
+              "pattern": {
+                "type": "string"
+              },
+              "flags": {
+                "type": "string"
+              },
+              "action": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
+          }
+        },
+        "reviewAfterDays": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}
